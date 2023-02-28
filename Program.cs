@@ -1,3 +1,5 @@
+using AutoMapper;
+using HMS_API;
 using HMS_API.DbContexts;
 using HMS_API.Models;
 using HMS_API.Repository;
@@ -15,7 +17,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 AuthenticationConfiguration authenticationConfiguration = new AuthenticationConfiguration();
 builder.Configuration.Bind("Authentication", authenticationConfiguration);
-
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 // Add services to the container.
@@ -24,6 +28,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
 builder.Services.AddTransient<ApplicationDbContext>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IDoctorRepository,DoctorRepository>();
+builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
 builder.Services.AddResponseCaching();
 builder.Services.AddScoped<AccessTokenGenerator>();
 builder.Services.AddScoped<RefreshTokenGenerator>();

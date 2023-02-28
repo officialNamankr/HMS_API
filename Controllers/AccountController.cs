@@ -93,6 +93,7 @@ namespace HMS_API.Controllers
                         UserName = model.UserName,
                         Email = model.Email,
                         Name = model.Name,
+                        Addedon = DateTime.Now,
 
                     };
                     var IsUserNamePresent = await _db.Users
@@ -121,6 +122,15 @@ namespace HMS_API.Controllers
                                     PatientId = user.Id
                                 };
                                 await _db.Patients.AddAsync(patient);
+
+                            }
+                            else if (model.RoleName == Helper.Helper.Doctor)
+                            {
+                                    var doctor = new Doctor
+                                    {
+                                        DoctorId = user.Id
+                                    };
+                                    await _db.Doctors.AddAsync(doctor);
 
                             }
                             await _userManager.AddToRoleAsync(user, model.RoleName);

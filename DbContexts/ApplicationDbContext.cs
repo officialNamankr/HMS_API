@@ -12,5 +12,7 @@ namespace HMS_API.DbContexts
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Department> Departments { get; set; }
     }
 }
