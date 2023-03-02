@@ -1,6 +1,8 @@
 ﻿using HMS_API.DbContexts;
 using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Repository;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +61,34 @@ namespace HMS_API.Controllers
 
             return _response;
 
+        }
+
+
+        [HttpGet]
+        [Route("/GetAllDepartments")]
+        public async Task<ResponseDto> GetDepartments()
+        {
+            try
+            {
+                var result = await _departmentRepository.GetAllDepartments();
+                if(result.Count == 0)
+                {
+                    _response.Result = NoContent();
+                    _response.DisplayMessage = "No departments found";
+                    _response.IsSuccess = true;
+                    return _response;
+                }
+                _response.Result = Ok(result);
+                _response.DisplayMessage = "Departments fetched successfully";
+                _response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
         }
 
 

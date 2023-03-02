@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HMS_API.Repository.IRepository;
-
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using HMS_API.Models.Response;
 using HMS_API.Helper;
+using HMS_API.Models.Dto.GetDtos;
 //using HMS_API.Models.Response;
 
 namespace HMS_API.Controllers
@@ -78,9 +78,6 @@ namespace HMS_API.Controllers
         [HttpPost]
         [Route("Register")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        
-
-
         //Register a user(Admin,Doctor or Patient)
         public async Task<object> Register([FromBody] RegisterViewDto model)
         {

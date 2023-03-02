@@ -4,6 +4,7 @@ using HMS_API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230302081524_AddedAllTheTables")]
+    partial class AddedAllTheTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,7 +248,12 @@ namespace HMS_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("RecommendedTestRTId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("TestId");
+
+                    b.HasIndex("RecommendedTestRTId");
 
                     b.ToTable("Tests");
                 });
@@ -406,21 +413,6 @@ namespace HMS_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RecommendedTestTest", b =>
-                {
-                    b.Property<Guid>("RecommendedTestsRTId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TestsTestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RecommendedTestsRTId", "TestsTestId");
-
-                    b.HasIndex("TestsTestId");
-
-                    b.ToTable("RecommendedTestTest");
-                });
-
             modelBuilder.Entity("DepartmentDoctor", b =>
                 {
                     b.HasOne("HMS_API.Models.Department", null)
@@ -502,6 +494,13 @@ namespace HMS_API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("HMS_API.Models.Test", b =>
+                {
+                    b.HasOne("HMS_API.Models.RecommendedTest", null)
+                        .WithMany("Tests")
+                        .HasForeignKey("RecommendedTestRTId");
+                });
+
             modelBuilder.Entity("HMS_API.Models.Test_Report", b =>
                 {
                     b.HasOne("HMS_API.Models.RecommendedTest", null)
@@ -560,24 +559,11 @@ namespace HMS_API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RecommendedTestTest", b =>
-                {
-                    b.HasOne("HMS_API.Models.RecommendedTest", null)
-                        .WithMany()
-                        .HasForeignKey("RecommendedTestsRTId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HMS_API.Models.Test", null)
-                        .WithMany()
-                        .HasForeignKey("TestsTestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HMS_API.Models.RecommendedTest", b =>
                 {
                     b.Navigation("Reports");
+
+                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }

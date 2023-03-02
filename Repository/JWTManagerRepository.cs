@@ -6,7 +6,7 @@ using System.Text;
 using HMS_API.DbContexts;
 using HMS_API.Models;
 using HMS_API.Repository.IRepository;
-using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.GetDtos;
 
 namespace HMS_API.Repository
 {

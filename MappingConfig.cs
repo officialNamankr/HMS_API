@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HMS_API.Models;
-using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.GetDtos;
 
 namespace HMS_API
 {

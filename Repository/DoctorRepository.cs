@@ -1,6 +1,6 @@
 ﻿using HMS_API.DbContexts;
 using HMS_API.Models;
-using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +25,12 @@ namespace HMS_API.Repository
                 return null;
             }
             
+            
             foreach (var dept in model.DepartmentIds)
             {
                 var dpt = await _db.Departments.FirstOrDefaultAsync(d => d.Id.Equals(dept.DepartmentId));
                 doctor.Departments.Add(dpt);
+                
                
             }
             await _db.SaveChangesAsync();

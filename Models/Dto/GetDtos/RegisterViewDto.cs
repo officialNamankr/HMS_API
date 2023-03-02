@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HMS_API.Models.Dto
+namespace HMS_API.Models.Dto.GetDtos
 {
     public class RegisterViewDto
     {

@@ -1,4 +1,4 @@
-﻿namespace HMS_API.Models.Dto
+﻿namespace HMS_API.Models.Dto.GetDtos
 {
     public class DepartmentViewDto
     {

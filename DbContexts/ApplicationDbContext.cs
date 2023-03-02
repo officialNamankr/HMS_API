@@ -14,5 +14,15 @@ namespace HMS_API.DbContexts
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Department> Departments { get; set; }
+
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Medical_Report> Medical_Reports { get; set;}
+
+        public DbSet<Test_Report> Test_Reports { get;set; }
+
+        public DbSet<Test> Tests { get; set; }
+
+        public DbSet<RecommendedTest> Recommended_Tests { get; set; }
     }
 }
