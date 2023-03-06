@@ -22,6 +22,7 @@ namespace HMS_API.Controllers
             _Patientrepository = patientrepository;
 
         }
+
         [HttpGet]
         [Route("/GetAllPatients")]
         public async Task<ResponseDto> GetPatient()
@@ -40,6 +41,7 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+
         [HttpGet]
         [Route("/GetPatientById")]
         public async Task<ResponseDto> GetPatientById(string id)
@@ -58,6 +60,7 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+
         [HttpGet]
         [Route("/GetPatientByUserName")]
         public async Task<ResponseDto> GetPatientByUserName(string id)

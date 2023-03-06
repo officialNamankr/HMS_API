@@ -11,6 +11,6 @@ namespace HMS_API.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public ICollection<RecommendedTest> RecommendedTests { get; set;}
+        public virtual ICollection<RecommendedTest> RecommendedTests { get; set;}
     }
 }

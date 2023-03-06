@@ -34,7 +34,7 @@ namespace HMS_API.Migrations
 
                     b.HasIndex("DoctorsDoctorId");
 
-                    b.ToTable("DepartmentDoctor");
+                    b.ToTable("DepartmentDoctor", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.ApplicationUser", b =>
@@ -134,7 +134,7 @@ namespace HMS_API.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.Department", b =>
@@ -148,7 +148,7 @@ namespace HMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.Doctor", b =>
@@ -158,7 +158,7 @@ namespace HMS_API.Migrations
 
                     b.HasKey("DoctorId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.Medical_Report", b =>
@@ -192,7 +192,7 @@ namespace HMS_API.Migrations
 
                     b.HasIndex("RecommendedTestRTId");
 
-                    b.ToTable("Medical_Reports");
+                    b.ToTable("Medical_Reports", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.Patient", b =>
@@ -202,7 +202,7 @@ namespace HMS_API.Migrations
 
                     b.HasKey("PatientId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.RecommendedTest", b =>
@@ -213,7 +213,7 @@ namespace HMS_API.Migrations
 
                     b.HasKey("RTId");
 
-                    b.ToTable("Recommended_Tests");
+                    b.ToTable("Recommended_Tests", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.RefreshToken", b =>
@@ -230,7 +230,7 @@ namespace HMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.Test", b =>
@@ -248,7 +248,7 @@ namespace HMS_API.Migrations
 
                     b.HasKey("TestId");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Tests", (string)null);
                 });
 
             modelBuilder.Entity("HMS_API.Models.Test_Report", b =>
@@ -270,7 +270,7 @@ namespace HMS_API.Migrations
 
                     b.HasIndex("RecommendedTestRTId");
 
-                    b.ToTable("Test_Reports");
+                    b.ToTable("Test_Reports", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -418,7 +418,7 @@ namespace HMS_API.Migrations
 
                     b.HasIndex("TestsTestId");
 
-                    b.ToTable("RecommendedTestTest");
+                    b.ToTable("RecommendedTestTest", (string)null);
                 });
 
             modelBuilder.Entity("DepartmentDoctor", b =>
