@@ -9,6 +9,9 @@ using HMS_API.DbContexts;
 using HMS_API.Models;
 using HMS_API.Models.Dto;
 using HMS_API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
+using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 
 namespace HMS_API.Controllers
 {
@@ -29,6 +32,8 @@ namespace HMS_API.Controllers
 
         // GET: api/Tests
         [HttpGet]
+        [Route("GetTests")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles ="Admin")]
         public async Task<ResponseDto> GetTests()
         {
             try
@@ -78,12 +83,41 @@ namespace HMS_API.Controllers
             return _response;
         }
 
+
+
+        [HttpPut]
+        [Route("EditTest")]
+        public async Task<ResponseDto> EditTest(Guid id, [FromBody] EditTestDto test)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _response.IsSuccess = false;
+                    _response.Result= BadRequest();
+                    _response.DisplayMessage = "Bad Model State";
+                  return _response;
+                }
+                var result = await _testRepository.EditTest(id,test);
+                _response.Result = Ok(result);
+                _response.DisplayMessage = "Test Added Successfully";
+                return _response;
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
         
 
         // POST: api/Tests
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ResponseDto> PostTest(AddTestDto test)
+        [Route("AddTest")]
+        public async Task<ResponseDto> PostTest([FromBody]AddTestDto test)
         {
             try
             {
