@@ -201,7 +201,7 @@ namespace HMS_API.Controllers
                 });
 
                 _response.DisplayMessage = "Logged In successfully";
-                return (_response);
+                return (accessToken.Result);
 
             }
 
