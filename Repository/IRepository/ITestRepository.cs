@@ -1,5 +1,6 @@
 ﻿using HMS_API.Models;
-using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 
 namespace HMS_API.Repository.IRepository
 {
@@ -7,6 +8,7 @@ namespace HMS_API.Repository.IRepository
     {
         Task<object> GetAllTest();
         Task<object> GetTestById(Guid id);
+        Task<object> EditTest(Guid id,EditTestDto model);
 
         Task<Test> AddTest(AddTestDto test);
     }

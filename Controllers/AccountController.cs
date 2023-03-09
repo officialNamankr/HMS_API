@@ -208,5 +208,30 @@ namespace HMS_API.Controllers
         }
 
 
+
+        [HttpDelete]
+        [Route("Logout")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<object> Logout()
+        {
+            var userId = User.FindFirstValue("id"); //gives the useriD of the logged in User
+            if (userId == null)
+            {
+                _response.IsSuccess = false;
+                _response.DisplayMessage = "first login in to access";
+                _response.Result = Unauthorized();
+                return _response;
+            }
+            await _refreshTokenRepository.DeleteAll(userId);//deletes the refresh tokens of the user to logout
+
+            _response.IsSuccess = true;
+            _response.DisplayMessage = "Logged out Successfully";
+            _response.Result = NoContent();
+
+            return _response;
+        }
+
+
+
     }
 }

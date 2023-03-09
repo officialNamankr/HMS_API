@@ -1,8 +1,10 @@
 ﻿using HMS_API.DbContexts;
 using HMS_API.Models;
-using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
 
 namespace HMS_API.Repository
 {
@@ -26,6 +28,19 @@ namespace HMS_API.Repository
 
         }
 
+        public async Task<object> EditTest(Guid id, EditTestDto model)
+        {
+            var test = await _db.Tests.FindAsync(id);
+            if(test == null)
+            {
+                return null;
+            }
+            test.Description = model.Description;
+            test.Name = model.Name;
+            _db.SaveChanges();
+            return test;
+        }
+
         public async Task<object> GetAllTest()
         {
             var tests = await _db.Tests.ToListAsync();
@@ -39,3 +54,6 @@ namespace HMS_API.Repository
         }
     }
 }
+
+
+

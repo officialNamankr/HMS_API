@@ -7,6 +7,8 @@ using HMS_API.Services.TokenValidators;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.GetDtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS_API.Controllers
 {
@@ -16,13 +18,15 @@ namespace HMS_API.Controllers
         private readonly ApplicationDbContext _db;
         ResponseDto _response;
         private readonly IDoctorRepository _doctorrepository;
+        private readonly UserManager<ApplicationUser> _userManager;
         
 
-        public DoctorController(ApplicationDbContext db, IDoctorRepository doctorrepository)
+        public DoctorController(ApplicationDbContext db, IDoctorRepository doctorrepository,UserManager<ApplicationUser> userManager)
         {
             _db = db;
             this._response = new ResponseDto();
             _doctorrepository = doctorrepository;
+            _userManager = userManager;
        
         }
 
@@ -89,6 +93,90 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+
+
+
+
+
+
+
+
+
+
+        [HttpPost]
+        [Route("RegisterDoctor")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        //Register a user(Admin,Doctor or Patient)
+        public async Task<object> Register([FromBody] RegisterDoctorDto model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        Name = model.Name,
+                        Addedon = DateTime.Now,
+
+                    };
+                    var IsUserNamePresent = await _db.Users
+                        .AnyAsync(u => u.UserName == user.UserName);
+                    var IsEmailPresent = await _db.Users.AnyAsync(u => u.Email == user.Email);
+                    if (IsUserNamePresent)
+                    {
+                        _response.Result = BadRequest();
+                        _response.DisplayMessage = "UserName Already Present";
+                    }
+                    else if (IsEmailPresent)
+                    {
+                        _response.Result = BadRequest();
+                        _response.DisplayMessage = "Email Already Present";
+                    }
+                    else
+                    {
+                        var result = await _userManager.CreateAsync(user, model.Password);
+
+                        if (result.Succeeded)
+                        {
+                            
+                                var doctor = new Doctor
+                                {
+                                    DoctorId = user.Id
+                                };
+                                await _db.Doctors.AddAsync(doctor);
+
+                           
+                            await _userManager.AddToRoleAsync(user,Helper.Helper.Doctor);
+                            await _db.SaveChangesAsync();
+                            _response.Result = Ok();
+                        }
+                    }
+
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    //_response.ErrorMessages = new List<string>() { ex.ToString() };
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return _response;
+        }
+
+
+
+
+
+
+
+
 
     }
 }
