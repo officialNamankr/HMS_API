@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using HMS_API.Controllers;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+<<<<<<< HEAD
+
+=======
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.UseDateOnlyTimeOnly()));
 
 
 builder.Services.AddTransient<ApplicationDbContext>();
@@ -32,6 +37,7 @@ builder.Services.AddScoped<IDoctorRepository,DoctorRepository>();
 builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddResponseCaching();
 builder.Services.AddScoped<AccessTokenGenerator>();
 builder.Services.AddScoped<RefreshTokenGenerator>();
