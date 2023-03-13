@@ -63,13 +63,21 @@ namespace HMS_API.Repository
             List<AppointmentDoctorViewDTO> appointments = new List<AppointmentDoctorViewDTO>();
             foreach (var appointment in appointmentDetails)
             {
+<<<<<<< HEAD
+                var user = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
+=======
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 AppointmentDoctorViewDTO app = new AppointmentDoctorViewDTO
                 {
                     AppointmentId = appointment.AppointmentId,
                     Date_Of_Appointment = appointment.Date_Of_Appointment,
                     Time_Of_Appointment = appointment.Time_Of_Appointment,
                     PatientId = appointment.PatientId,
+<<<<<<< HEAD
+                    PatientName = user.Name
+=======
                     PatientName = appointment.Patient.User.Name
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 };
                 appointments.Add(app);
             }
@@ -108,13 +116,21 @@ namespace HMS_API.Repository
             List<AppointmentPatientViewDTO> appointments = new List<AppointmentPatientViewDTO>();
             foreach (var appointment in appointmentDetails)
             {
+<<<<<<< HEAD
+                var user = await _db.Users.Where(u => u.Id.Equals(appointment.DoctorId)).FirstOrDefaultAsync();
+=======
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 AppointmentPatientViewDTO app = new AppointmentPatientViewDTO
                 {
                     AppointmentId = appointment.AppointmentId,
                     Date_Of_Appointment = appointment.Date_Of_Appointment,
                     Time_Of_Appointment = appointment.Time_Of_Appointment,
                     DoctorId = appointment.DoctorId,
+<<<<<<< HEAD
+                    DoctorName = user.Name
+=======
                     DoctorName = appointment.Doctor.User.Name
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 };
                 appointments.Add(app);
             }

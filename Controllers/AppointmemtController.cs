@@ -4,9 +4,18 @@ using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace HMS_API.Controllers
 {
+    
+=======
+
+namespace HMS_API.Controllers
+{
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
     [Route("api/[controller]")]
     
     public class AppointmemtController : Controller
@@ -93,6 +102,24 @@ namespace HMS_API.Controllers
             return _response;
         }
         [HttpPost]
+<<<<<<< HEAD
+        public async Task<ResponseDto> PostTest([FromBody] AddAppointmentApi addappointmentApi)
+        {
+            try
+            {
+                DateOnly dateOnly = DateOnly.FromDateTime(addappointmentApi.Time_ofAppointment);
+                TimeOnly timeOnly = TimeOnly.FromDateTime(addappointmentApi.Time_ofAppointment);
+                var addappointment = new AddAppointment
+                {
+                    Date_Of_Appointment = dateOnly,
+                    Time_Of_Appointment = timeOnly,
+                    PatientId = addappointmentApi.PatientId,
+                    DoctorId = addappointmentApi.DoctorId
+                };
+                var result = await _Appointmentrepository.AddAppointment(addappointment);
+                _response.Result = Ok(addappointment);
+                _response.DisplayMessage = "Appointment Added Successfully";
+=======
         public async Task<ResponseDto> PostTest(AddAppointment addappointment)
         {
             try
@@ -100,6 +127,7 @@ namespace HMS_API.Controllers
                 var result = await _Appointmentrepository.AddAppointment(addappointment);
                 _response.Result = Ok(addappointment);
                 _response.DisplayMessage = "Test Added Successfully";
+>>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 return _response;
 
             }

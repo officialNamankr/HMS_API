@@ -1,6 +1,8 @@
-﻿using Microsoft.VisualBasic;
+﻿using HMS_API.Controllers;
+using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace HMS_API.Models
 {
@@ -8,9 +10,9 @@ namespace HMS_API.Models
     {
         public Guid AppointmentId { get; set; }
         [Required]
-        public DateOnly Date_Of_Appointment { get; set; }
+        public DateTime Date_Of_Appointment { get; set; }
         [Required]
-        public TimeOnly Time_Of_Appointment { get; set; }
+        public DateTime Time_Of_Appointment { get; set; }
         [Required]
         public string PatientId { get; set; }
         [ForeignKey("PatientId")]
