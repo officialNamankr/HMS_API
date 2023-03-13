@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Models.Dto.GetDtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS_API.Controllers
 {
@@ -33,7 +34,8 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetAllDoctors")]
-        public async Task<ResponseDto> GetTrainers()
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<ResponseDto> GetDoctors()
         {
             try
             {
@@ -72,6 +74,7 @@ namespace HMS_API.Controllers
 
 
         [HttpPut("/AddDeptToDoc")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<ActionResult<object>> AddDeptToDoc([FromBody]AddDepartmentToDoctorDto model)
         {
             try
@@ -96,16 +99,9 @@ namespace HMS_API.Controllers
 
 
 
-
-
-
-
-
-
-
         [HttpPost]
         [Route("RegisterDoctor")]
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         //Register a user(Admin,Doctor or Patient)
         public async Task<object> Register([FromBody] RegisterDoctorDto model)
         {

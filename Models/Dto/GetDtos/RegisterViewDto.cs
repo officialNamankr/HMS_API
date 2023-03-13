@@ -23,7 +23,5 @@ namespace HMS_API.Models.Dto.GetDtos
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
-
-        public string RoleName { get; set; }
     }
 }

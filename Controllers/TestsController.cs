@@ -33,7 +33,7 @@ namespace HMS_API.Controllers
         // GET: api/Tests
         [HttpGet]
         [Route("GetTests")]
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles ="Admin")]
         public async Task<ResponseDto> GetTests()
         {
             try
@@ -117,6 +117,7 @@ namespace HMS_API.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Route("AddTest")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<ResponseDto> PostTest([FromBody]AddTestDto test)
         {
             try

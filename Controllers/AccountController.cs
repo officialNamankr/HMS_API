@@ -112,25 +112,15 @@ namespace HMS_API.Controllers
 
                         if (result.Succeeded)
                         {
-                            if (model.RoleName == Helper.Helper.Patient)
-                            {
+                            
                                 var patient = new Patient
                                 {
                                     PatientId = user.Id
                                 };
                                 await _db.Patients.AddAsync(patient);
 
-                            }
-                            else if (model.RoleName == Helper.Helper.Doctor)
-                            {
-                                    var doctor = new Doctor
-                                    {
-                                        DoctorId = user.Id
-                                    };
-                                    await _db.Doctors.AddAsync(doctor);
-
-                            }
-                            await _userManager.AddToRoleAsync(user, model.RoleName);
+                            
+                            await _userManager.AddToRoleAsync(user, Helper.Helper.Patient);
                             await _db.SaveChangesAsync();
                             _response.Result = Ok();
                         }
