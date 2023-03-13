@@ -8,9 +8,9 @@ namespace HMS_API.Models
     {
         public Guid AppointmentId { get; set; }
         [Required]
-        public DateTime Date_Of_Appointment { get; set; }
+        public DateOnly Date_Of_Appointment { get; set; }
         [Required]
-        public DateTime Time_Of_Appointment { get; set; }
+        public TimeOnly Time_Of_Appointment { get; set; }
         [Required]
         public string PatientId { get; set; }
         [ForeignKey("PatientId")]
