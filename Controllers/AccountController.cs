@@ -142,7 +142,68 @@ namespace HMS_API.Controllers
             return _response;
         }
 
+        [HttpPost]
+        [Route("RegisterAsAdmin")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        //Register a user(Admin,Doctor or Patient)
+        public async Task<object> RegisterAsAdmin([FromBody] RegisterViewDto model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        Name = model.Name,
+                        Addedon = DateTime.Now,
 
+                    };
+                    var IsUserNamePresent = await _db.Users
+                        .AnyAsync(u => u.UserName == user.UserName);
+                    var IsEmailPresent = await _db.Users.AnyAsync(u => u.Email == user.Email);
+                    if (IsUserNamePresent)
+                    {
+                        _response.Result = BadRequest();
+                        _response.DisplayMessage = "UserName Already Present";
+                    }
+                    else if (IsEmailPresent)
+                    {
+                        _response.Result = BadRequest();
+                        _response.DisplayMessage = "Email Already Present";
+                    }
+                    else
+                    {
+                        var result = await _userManager.CreateAsync(user, model.Password);
+
+                        if (result.Succeeded)
+                        {
+                        
+                            
+
+
+                            await _userManager.AddToRoleAsync(user, Helper.Helper.Admin);
+                            await _db.SaveChangesAsync();
+                            _response.Result = Ok();
+                        }
+                    }
+
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    //_response.ErrorMessages = new List<string>() { ex.ToString() };
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return _response;
+        }
 
         [HttpPost]
         [Route("LoginJWT")]
