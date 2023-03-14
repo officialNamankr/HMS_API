@@ -34,10 +34,7 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetAllDoctors")]
-<<<<<<< HEAD
-=======
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
         public async Task<ResponseDto> GetDoctors()
         {
             try

@@ -63,47 +63,40 @@ namespace HMS_API.Repository
             List<AppointmentDoctorViewDTO> appointments = new List<AppointmentDoctorViewDTO>();
             foreach (var appointment in appointmentDetails)
             {
-<<<<<<< HEAD
                 var user = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
-=======
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 AppointmentDoctorViewDTO app = new AppointmentDoctorViewDTO
                 {
                     AppointmentId = appointment.AppointmentId,
                     Date_Of_Appointment = appointment.Date_Of_Appointment,
                     Time_Of_Appointment = appointment.Time_Of_Appointment,
                     PatientId = appointment.PatientId,
-<<<<<<< HEAD
                     PatientName = user.Name
-=======
-                    PatientName = appointment.Patient.User.Name
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 };
                 appointments.Add(app);
             }
             return appointments;
         }
 
-        public async Task<AppointmentAdminViewDTO> GetAppointmentById(string id)
+        public async Task<AppointmentAdminViewDTO> GetAppointmentById(Guid id)
         {
-            var AppointmentDetails = await _db.Appointments.Where(u => u.AppointmentId.Equals(id)).FirstOrDefaultAsync();
-            if (AppointmentDetails == null)
+            var appointment = await _db.Appointments.Where(u => u.AppointmentId.Equals(id)).FirstOrDefaultAsync();
+            if (appointment == null)
             {
                 return null;
             }
-
-
-            var appointment = new AppointmentAdminViewDTO()
+            var Doctoruser = await _db.Users.Where(u => u.Id.Equals(appointment.DoctorId)).FirstOrDefaultAsync();
+            var Patientuser = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
+            var appointment_ = new AppointmentAdminViewDTO()
             {
-                AppointmentId=AppointmentDetails.AppointmentId,
-                PatientId = AppointmentDetails.PatientId,
-                DoctorName = AppointmentDetails.Doctor.User.Name,
-                Date_Of_Appointment=AppointmentDetails.Date_Of_Appointment,
-                Time_Of_Appointment=AppointmentDetails.Time_Of_Appointment,
-                DoctorId=AppointmentDetails.DoctorId,
-                PatientName=AppointmentDetails.Patient.User.Name
+                AppointmentId=appointment.AppointmentId,
+                PatientId = appointment.PatientId,
+                DoctorName = Doctoruser.Name,
+                Date_Of_Appointment= appointment.Date_Of_Appointment,
+                Time_Of_Appointment= appointment.Time_Of_Appointment,
+                DoctorId= appointment.DoctorId,
+                PatientName=Patientuser.Name
             };
-            return appointment;
+            return appointment_;
         }
 
         public async Task<List<AppointmentPatientViewDTO>> GetAppointmentByPatient(string id)
@@ -116,21 +109,14 @@ namespace HMS_API.Repository
             List<AppointmentPatientViewDTO> appointments = new List<AppointmentPatientViewDTO>();
             foreach (var appointment in appointmentDetails)
             {
-<<<<<<< HEAD
                 var user = await _db.Users.Where(u => u.Id.Equals(appointment.DoctorId)).FirstOrDefaultAsync();
-=======
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 AppointmentPatientViewDTO app = new AppointmentPatientViewDTO
                 {
                     AppointmentId = appointment.AppointmentId,
                     Date_Of_Appointment = appointment.Date_Of_Appointment,
                     Time_Of_Appointment = appointment.Time_Of_Appointment,
                     DoctorId = appointment.DoctorId,
-<<<<<<< HEAD
                     DoctorName = user.Name
-=======
-                    DoctorName = appointment.Doctor.User.Name
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 };
                 appointments.Add(app);
             }

@@ -4,18 +4,11 @@ using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace HMS_API.Controllers
 {
-    
-=======
-
-namespace HMS_API.Controllers
-{
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
     [Route("api/[controller]")]
     
     public class AppointmemtController : Controller
@@ -31,7 +24,7 @@ namespace HMS_API.Controllers
         }
         [HttpGet]
         [Route("/GetAllAppointments")]
-        public async Task<ResponseDto> GetPatient()
+        public async Task<ResponseDto> GetAllAppointment()
         {
             try
             {
@@ -49,7 +42,7 @@ namespace HMS_API.Controllers
         }
         [HttpGet]
         [Route("/GetAppointmentById")]
-        public async Task<ResponseDto> GetAppointmentById(string id)
+        public async Task<ResponseDto> GetAppointmentById(Guid id)
         {
             try
             {
@@ -102,8 +95,7 @@ namespace HMS_API.Controllers
             return _response;
         }
         [HttpPost]
-<<<<<<< HEAD
-        public async Task<ResponseDto> PostTest([FromBody] AddAppointmentApi addappointmentApi)
+        public async Task<ResponseDto> PostAppointment([FromBody] AddAppointmentApi addappointmentApi)
         {
             try
             {
@@ -119,17 +111,7 @@ namespace HMS_API.Controllers
                 var result = await _Appointmentrepository.AddAppointment(addappointment);
                 _response.Result = Ok(addappointment);
                 _response.DisplayMessage = "Appointment Added Successfully";
-=======
-        public async Task<ResponseDto> PostTest(AddAppointment addappointment)
-        {
-            try
-            {
-                var result = await _Appointmentrepository.AddAppointment(addappointment);
-                _response.Result = Ok(addappointment);
-                _response.DisplayMessage = "Test Added Successfully";
->>>>>>> 5daa595f913dc03b44276c08edc1c126652d31e5
                 return _response;
-
             }
             catch (Exception ex)
             {
@@ -138,5 +120,7 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+
+            
     }
 }
