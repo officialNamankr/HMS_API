@@ -7,7 +7,7 @@ namespace HMS_API.Repository.IRepository
     public interface IAppointmentRepository
     {
         Task<List<Appointment>> GetAllAppointments();
-        Task<AppointmentAdminViewDTO> GetAppointmentById(string id);
+        Task<AppointmentAdminViewDTO> GetAppointmentById(Guid id);
         Task<List<AppointmentDoctorViewDTO>> GetAppointmentByDoctor(string id);
         Task<List<AppointmentPatientViewDTO>> GetAppointmentByPatient(string id);
         Task<AddAppointment> AddAppointment(AddAppointment appointment );
