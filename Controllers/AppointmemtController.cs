@@ -2,8 +2,10 @@
 using HMS_API.Models.Dto;
 using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -95,6 +97,7 @@ namespace HMS_API.Controllers
             return _response;
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
         public async Task<ResponseDto> PostAppointment([FromBody] AddAppointmentApi addappointmentApi)
         {
             try
