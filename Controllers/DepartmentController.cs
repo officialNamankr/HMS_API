@@ -28,8 +28,8 @@ namespace HMS_API.Controllers
 
         [HttpPost]
         [Route("AddDepartment")]
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        public async Task<object> AddSkill(AddDepartmentDto dept)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<object> AddDepartment([FromBody]AddDepartmentDto dept)
         {
             try
             {
