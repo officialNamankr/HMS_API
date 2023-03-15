@@ -34,7 +34,7 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetAllDoctors")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Patient")]
         public async Task<ResponseDto> GetDoctors()
         {
             try
