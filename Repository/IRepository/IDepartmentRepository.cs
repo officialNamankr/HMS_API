@@ -7,5 +7,6 @@ namespace HMS_API.Repository.IRepository
     {
         Task<DepartmentViewDto> AddDepartment(AddDepartmentDto department);
         Task<List<DepartmentViewDto>> GetAllDepartments();
+        Task<List<DoctorByDepartmentViewDTO>> GetAllDoctorsByDeptId(Guid id);
     }
 }
