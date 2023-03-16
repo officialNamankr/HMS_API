@@ -54,8 +54,14 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetDoctorById")]
+        [Authorize(AuthenticationSchemes ="Bearer", Roles ="Admin,Doctor")]
         public async Task<ResponseDto> GetDoctorById(string id)
         {
+            var docId = User.FindFirst("id");
+            if(id == null)
+            {
+                id= docId.ToString();
+            }
             try
             {
                 var result = await _doctorrepository.GetDoctorById(id);
@@ -117,6 +123,8 @@ namespace HMS_API.Controllers
                         Addedon = DateTime.Now,
 
                     };
+                    
+                    
                     var IsUserNamePresent = await _db.Users
                         .AnyAsync(u => u.UserName == user.UserName);
                     var IsEmailPresent = await _db.Users.AnyAsync(u => u.Email == user.Email);
@@ -133,6 +141,7 @@ namespace HMS_API.Controllers
                     else
                     {
                         var result = await _userManager.CreateAsync(user, model.Password);
+                        var dept = await _db.Departments.FindAsync(model.DepartmentID);
 
                         if (result.Succeeded)
                         {
@@ -141,9 +150,8 @@ namespace HMS_API.Controllers
                                 {
                                     DoctorId = user.Id
                                 };
+                                doctor.Departments.Add(dept);
                                 await _db.Doctors.AddAsync(doctor);
-
-                           
                             await _userManager.AddToRoleAsync(user,Helper.Helper.Doctor);
                             await _db.SaveChangesAsync();
                             _response.Result = Ok();

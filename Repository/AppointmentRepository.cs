@@ -64,13 +64,16 @@ namespace HMS_API.Repository
             foreach (var appointment in appointmentDetails)
             {
                 var user = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
+                var doc = await _db.Users.Where(d => d.Id.Equals(appointment.DoctorId)).FirstOrDefaultAsync();
                 AppointmentDoctorViewDTO app = new AppointmentDoctorViewDTO
                 {
                     AppointmentId = appointment.AppointmentId,
                     Date_Of_Appointment = appointment.Date_Of_Appointment,
                     Time_Of_Appointment = appointment.Time_Of_Appointment,
                     PatientId = appointment.PatientId,
-                    PatientName = user.Name
+                    PatientName = user.Name,
+                    Doctorid = appointment.DoctorId,
+                    DoctorName = doc.Name
                 };
                 appointments.Add(app);
             }

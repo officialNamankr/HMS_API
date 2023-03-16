@@ -14,6 +14,8 @@ namespace HMS_API.Models.Dto.PostDtos
         [EmailAddress]
         public string Email { get; set; }
 
+        public Guid DepartmentID { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
