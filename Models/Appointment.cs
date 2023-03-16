@@ -23,6 +23,8 @@ namespace HMS_API.Models
         [ForeignKey("DoctorId")]
         public Doctor Doctor { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
 
     }
 }

@@ -125,6 +125,31 @@ namespace HMS_API.Controllers
             return _response;
         }
 
-            
+
+
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Patient")]
+        public async Task<ResponseDto> DeleteAppointment(Guid appointmentId)
+        {
+
+            try
+            {
+                var result = await _Appointmentrepository.CancelAppointment(appointmentId);
+                _response.Result = NoContent();
+                _response.DisplayMessage = "Appointment cancelled Successfully";
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
+
+
+
+
+
     }
 }

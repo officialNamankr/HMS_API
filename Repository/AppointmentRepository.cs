@@ -39,6 +39,19 @@ namespace HMS_API.Repository
             return addappointment;
         }
 
+        public async Task<bool> CancelAppointment(Guid id)
+        {
+           var appointment = await _db.Appointments.FindAsync(id);
+            if (appointment == null)
+            {
+                return true;
+            }
+            appointment.IsDeleted = true;
+            await _db.SaveChangesAsync();
+            return true;
+
+        }
+
         public async Task<List<Appointment>> GetAllAppointments()
         {
             var apps = await _db.Appointments.ToListAsync();
