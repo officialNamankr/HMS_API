@@ -90,7 +90,25 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+        [HttpGet]
+        [Route("/GetAllDoctorsByDeptId")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
+        public async Task<ResponseDto> GetDoctorsByDeptId(Guid id)
+        {
+            try
+            {
+                var result = await _departmentRepository.GetAllDoctorsByDeptId(id);
+                _response.Result = Ok(result);
 
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
 
     }
 }
