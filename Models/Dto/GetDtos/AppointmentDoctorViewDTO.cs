@@ -10,5 +10,8 @@
         
         public string PatientId { get; set; }
         public string PatientName { get; set; }
+
+        public string Doctorid { get; set; }
+        public string DoctorName { get; set; }
     }
 }
