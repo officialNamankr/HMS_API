@@ -10,6 +10,7 @@ using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Models.Dto.GetDtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HMS_API.Controllers
 {
@@ -54,7 +55,7 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetDoctorById")]
-        [Authorize(AuthenticationSchemes ="Bearer", Roles ="Admin,Doctor")]
+        [Authorize(AuthenticationSchemes ="Bearer", Roles ="Admin")]
         public async Task<ResponseDto> GetDoctorById(string id)
         {
             var docId = User.FindFirst("id");
@@ -65,6 +66,29 @@ namespace HMS_API.Controllers
             try
             {
                 var result = await _doctorrepository.GetDoctorById(id);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+
+        [HttpGet]
+        [Route("/GetDoctorDetail")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Doctor")]
+        public async Task<ResponseDto> GetDoctorDetail()
+        {
+            var userId = User.FindFirstValue("id");
+
+            try
+            {
+                var result = await _doctorrepository.GetDoctorById(userId);
                 _response.Result = Ok(result);
 
             }
