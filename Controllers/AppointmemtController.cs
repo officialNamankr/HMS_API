@@ -128,10 +128,9 @@ namespace HMS_API.Controllers
 
 
         [HttpDelete]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Patient")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
         public async Task<ResponseDto> DeleteAppointment(Guid appointmentId)
         {
-
             try
             {
                 var result = await _Appointmentrepository.CancelAppointment(appointmentId);
@@ -146,10 +145,5 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
-
-
-
-
-
     }
 }
