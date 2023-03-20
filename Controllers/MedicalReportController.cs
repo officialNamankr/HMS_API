@@ -31,6 +31,7 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetMedicalReportByAppointment")]
+        [Authorize(AuthenticationSchemes ="Bearer", Roles ="Patient,Doctor,Admin")]
         public async Task<ResponseDto> GetMedicalReportByAppointment(Guid id)
         {
             try
@@ -39,7 +40,7 @@ namespace HMS_API.Controllers
                 if (result == null)
                 {
                     _response.DisplayMessage = "No Report found";
-                    _response.Result = NoContent();
+                    _response.Result = NotFound();
                     _response.IsSuccess = true;
                     return _response;
                 }
@@ -63,8 +64,8 @@ namespace HMS_API.Controllers
 
 
         [HttpPost]
-        [Route("AddGeport")]
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Doctor")]
+        [Route("AddReport")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Doctor")]
   
         public async Task<object> AddReport([FromBody] AddMedicalReport report)
         {
@@ -72,7 +73,7 @@ namespace HMS_API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var r = _medicalReportRepository.AddMedicalReport(report);
+                    var r = await _medicalReportRepository.AddMedicalReport(report);
                     _response.DisplayMessage = "Report Added Successfully";
                     _response.Result = r;
                     _response.IsSuccess = true;

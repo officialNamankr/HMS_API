@@ -27,6 +27,8 @@ namespace HMS_API.Controllers
         }
         [HttpGet]
         [Route("/GetAllAppointments")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Doctor")]
+
         public async Task<ResponseDto> GetAllAppointment()
         {
             try
@@ -45,6 +47,7 @@ namespace HMS_API.Controllers
         }
         [HttpGet]
         [Route("/GetAppointmentById")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Doctor")]
         public async Task<ResponseDto> GetAppointmentById(Guid id)
         {
             try
@@ -63,6 +66,7 @@ namespace HMS_API.Controllers
         }
         [HttpGet]
         [Route("/GetAppointmentByPatientId")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Doctor,Patient")]
         public async Task<ResponseDto> GetAppointmentByPatientId(string id)
         {
             try
@@ -81,6 +85,7 @@ namespace HMS_API.Controllers
         }
         [HttpGet]
         [Route("/GetAppointmentByDoctorId")]
+        [Authorize(AuthenticationSchemes="Bearer", Roles ="Admin,Doctor")]
         public async Task<ResponseDto> GetAppointmentByDoctorId(string id)
         {
             try

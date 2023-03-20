@@ -3,6 +3,7 @@ using HMS_API.Models;
 using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMS_API.Repository
 {
@@ -20,8 +21,6 @@ namespace HMS_API.Repository
             var mdReport = new Medical_Report
             {
                 Remarks = model.Remarks,
-                PatientId = model.PatientId,
-                DoctorId = model.DoctorId,
                 AppointmentId = model.AppointmentId,
             };
             await _db.Medical_Reports.AddAsync(mdReport);
@@ -31,16 +30,18 @@ namespace HMS_API.Repository
 
         public async Task<ViewMedicalReport> GetReportByAppointmentId(Guid id)
         {
-            var Mdreport = await _db.Medical_Reports.FindAsync(id);
-            if(Mdreport == null) { return null; }   
-            var Patient = await _db.Users.FindAsync(Mdreport.PatientId);
+            var Mdreport = await _db.Medical_Reports.Where(a => a.AppointmentId.Equals(id)).FirstOrDefaultAsync();
+            if(Mdreport == null) { return null; }
+            var appointmentDetails = await _db.Appointments.FindAsync(Mdreport.AppointmentId); 
+            var Patient = await _db.Users.FindAsync(appointmentDetails.PatientId);
             var PatientName = Patient.Name;
-            var Doctor = await _db.Users.FindAsync(Mdreport.DoctorId);
+            var Doctor = await _db.Users.FindAsync(appointmentDetails.DoctorId);
             var DoctorName = Doctor.Name;
             var Report = new ViewMedicalReport
             {
                 AppointmentId = id,
-                DateTimeOfExamination = Mdreport.DateTimeOfExamination,
+                DateOfExamination = appointmentDetails.Date_Of_Appointment,
+                TimeOfExamination = appointmentDetails.Time_Of_Appointment,
                 Remarks = Mdreport.Remarks,
                 DoctorName = DoctorName,
                 PatientName = PatientName,
