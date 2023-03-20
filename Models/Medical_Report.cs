@@ -8,6 +8,10 @@ namespace HMS_API.Models
         [Key]
         public Guid MedicalReportId { get; set; }
 
+        public Guid AppointmentId { get; set; }
+        [ForeignKey("AppointmentId")]
+        public Appointment Appointment { get; set; }
+
         [Required]
         public DateTime DateTimeOfExamination { get; set; }
 

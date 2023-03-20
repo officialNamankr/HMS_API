@@ -23,6 +23,9 @@ namespace HMS_API.Models
         [ForeignKey("DoctorId")]
         public Doctor Doctor { get; set; }
 
+        //public Guid Medical_ReportId { get; set; }
+        //public virtual Medical_Report Medical_Report { get; set; }
+
         public bool IsDeleted { get; set; } = false;
 
 
