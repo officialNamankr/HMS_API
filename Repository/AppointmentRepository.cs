@@ -132,7 +132,8 @@ namespace HMS_API.Repository
                     Date_Of_Appointment = appointment.Date_Of_Appointment,
                     Time_Of_Appointment = appointment.Time_Of_Appointment,
                     DoctorId = appointment.DoctorId,
-                    DoctorName = user.Name
+                    DoctorName = user.Name,
+                    IsDeleted = appointment.IsDeleted
                 };
                 appointments.Add(app);
             }
