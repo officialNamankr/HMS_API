@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Net;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -150,5 +151,75 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+
+
+
+        [HttpGet]
+        [Route("/GetCancelledAppointmentByPatient")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
+        public async Task<ResponseDto> GetCancelledAppointmentByPatient()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetCancelledAppointmentByPatient(userId);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("/GetPastAppointmentByPatient")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
+        public async Task<ResponseDto> GetPastAppointmentByPatient()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetPastAppointmentByPatient(userId);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("/GetUpcomingAppointmentByPatient")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
+        public async Task<ResponseDto> GetUpcomingAppointmentByPatient()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetUpcomingAppointmentByPatient(userId);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
     }
 }
