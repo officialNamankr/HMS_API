@@ -4,6 +4,7 @@ using HMS_API.Migrations;
 using HMS_API.Models;
 using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +34,23 @@ namespace HMS_API.Repository
             };
             return departmentViewDto;
         }
-
+        public async Task<object> EditDepartment(Guid id, EditDepartmentDto model)
+        {
+            var Department = await _db.Departments.FindAsync(id);
+            if (Department == null)
+            {
+                return null;
+            }
+            Department.Name = model.Name;
+            Department.Name = model.Name;
+            _db.SaveChanges();
+            return Department;
+        }
+        public async Task<object> GetDepartmentById(Guid id)
+        {
+            var department = await _db.Departments.Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
+            return department;
+        }
         public async Task<List<DepartmentViewDto>> GetAllDepartments()
         {
             var depts = await _db.Departments.ToListAsync();
