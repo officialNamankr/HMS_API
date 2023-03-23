@@ -2,6 +2,7 @@
 using HMS_API.Models.Dto;
 using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 using HMS_API.Repository;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
@@ -62,6 +63,30 @@ namespace HMS_API.Controllers
             return _response;
 
         }
+        [HttpGet("{id}")]
+        public async Task<ResponseDto> GetDepartment(Guid id)
+        {
+            try
+            {
+                var test = await _departmentRepository.GetDepartmentById(id);
+                if (test == null)
+                {
+                    _response.Result = NoContent();
+                    _response.DisplayMessage = "No Test found with the given Id";
+                }
+                else
+                {
+                    _response.Result = Ok(test);
+                    _response.DisplayMessage = "Sucessfully fetched the Test";
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.ErrorMessages = new List<string> { ex.Message };
+                _response.IsSuccess = false;
+            }
+            return _response;
+        }
 
 
         [HttpGet]
@@ -87,6 +112,32 @@ namespace HMS_API.Controllers
 
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+        [HttpPut]
+        [Route("EditDepartment")]
+        public async Task<ResponseDto> EditDepartment(Guid id, [FromBody] EditDepartmentDto department)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _response.IsSuccess = false;
+                    _response.Result = BadRequest();
+                    _response.DisplayMessage = "Bad Model State";
+                    return _response;
+                }
+                var result = await _departmentRepository.EditDepartment(id, department);
+                _response.Result = Ok(result);
+                _response.DisplayMessage = "Department Added Successfully";
+                return _response;
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
             }
             return _response;
         }
