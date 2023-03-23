@@ -28,6 +28,18 @@ namespace HMS_API.Repository
 
         }
 
+        public async Task<bool> DeleteTest(Guid id)
+        {
+            var test = await _db.Tests.FindAsync(id);
+            if (test == null)
+            {
+                return true;
+            }
+            test.IsDeleted = true;
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<object> EditTest(Guid id, EditTestDto model)
         {
             var test = await _db.Tests.FindAsync(id);
@@ -43,7 +55,7 @@ namespace HMS_API.Repository
 
         public async Task<object> GetAllTest()
         {
-            var tests = await _db.Tests.ToListAsync();
+            var tests = await _db.Tests.OrderBy(t => t.Name).ToListAsync();
             return tests;
         }
 

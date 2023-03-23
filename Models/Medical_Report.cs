@@ -11,7 +11,7 @@ namespace HMS_API.Models
         [ForeignKey("AppointmentId")]
         public Appointment Appointment { get; set; }
         public string Remarks { get; set; }
-        public virtual RecommendedTest RecommendedTest { get; set; }
+        public virtual RecommendedTest RecommendedTest { get; set; } = new RecommendedTest();
 
         
 

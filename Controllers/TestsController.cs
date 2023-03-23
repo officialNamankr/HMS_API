@@ -12,6 +12,7 @@ using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Models.Dto.PutDtos;
+using HMS_API.Repository;
 
 namespace HMS_API.Controllers
 {
@@ -33,7 +34,7 @@ namespace HMS_API.Controllers
         // GET: api/Tests
         [HttpGet]
         [Route("GetTests")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles ="Admin,Doctor")]
         public async Task<ResponseDto> GetTests()
         {
             try
@@ -136,19 +137,23 @@ namespace HMS_API.Controllers
         }
 
         // DELETE: api/Tests/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTest(Guid id)
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<ResponseDto> DeleteTest(Guid testId)
         {
-            var test = await _db.Tests.FindAsync(id);
-            if (test == null)
+            try
             {
-                return NotFound();
+                var result = await _testRepository.DeleteTest(testId);
+                _response.Result = NoContent();
+                _response.DisplayMessage = "Test deleted Successfully";
+                return _response;
             }
-
-            _db.Tests.Remove(test);
-            await _db.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _response;
         }
 
         private bool TestExists(Guid id)

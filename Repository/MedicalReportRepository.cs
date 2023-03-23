@@ -23,19 +23,20 @@ namespace HMS_API.Repository
                 Remarks = model.Remarks,
                 AppointmentId = model.AppointmentId,
             };
-            ICollection<Test> recommedTest = new List<Test>();
+           
             if(model.RecommendedTests != null)
             {
                 foreach(var tst in model.RecommendedTests)
                 {
-                    var test = await _db.Tests.FindAsync(tst);
+                    var test = await _db.Tests.FindAsync(tst.TestId);
                     if(test != null)
                     {
-                        recommedTest.Add(test); 
+                        
+                        mdReport.RecommendedTest.Tests.Add(test);
                     }
-
+                   
                 }
-                mdReport.RecommendedTest.Tests = recommedTest;
+               
             }
             await _db.Medical_Reports.AddAsync(mdReport);
             await _db.SaveChangesAsync();
