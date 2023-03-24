@@ -1,5 +1,6 @@
 ﻿using HMS_API.DbContexts;
 using HMS_API.Models.Dto;
+using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +16,12 @@ namespace HMS_API.Controllers
 {
     [Route("api/[controller]")]
     
-    public class AppointmemtController : Controller
+    public class AppointmentController : Controller
     {
         private readonly ApplicationDbContext _db;
         ResponseDto _response;
         private readonly IAppointmentRepository _Appointmentrepository;
-        public AppointmemtController(ApplicationDbContext db, IAppointmentRepository appointmentrepository)
+        public AppointmentController(ApplicationDbContext db, IAppointmentRepository appointmentrepository)
         {
             _db = db;
             this._response = new ResponseDto();
@@ -220,6 +221,29 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+        [HttpGet]
+        [Route("/GetTimeByDateAndDoctorId")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Patient")]
+        public async Task<ResponseDto> GetTimeByDateAndDoctorId(string data)
+        {
+            try
+            {
+                string[] dataValue = data.Split('/');
+                Guid doctorId = Guid.Parse(dataValue[0]);
+                DateTime datetime = DateTime.Parse(dataValue[1]);
+                DateOnly date = DateOnly.FromDateTime(datetime);
+                //var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetTimeByDateAndDoctorId(doctorId,date);
+                _response.Result = Ok(result);
 
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
     }
 }

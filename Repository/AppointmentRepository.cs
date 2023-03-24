@@ -224,6 +224,17 @@ namespace HMS_API.Repository
             }
             return appointments;
         }
+        public async Task<List<TimeOnly>> GetTimeByDateAndDoctorId(Guid doctorId,DateOnly date)
+        {
+            var appointmentDetails = await _db.Appointments.Where(u => u.DoctorId.Equals(doctorId) && u.Date_Of_Appointment.Equals(date)).ToListAsync();
+            List<TimeOnly> timeOnly = new List<TimeOnly>();
+            foreach (var appointment in appointmentDetails)
+            {
+                timeOnly.Add(appointment.Time_Of_Appointment);
+            }
+            return timeOnly;
 
+            
+        }
     }
 }
