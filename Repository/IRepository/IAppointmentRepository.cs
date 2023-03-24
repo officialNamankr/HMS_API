@@ -15,6 +15,7 @@ namespace HMS_API.Repository.IRepository
         Task<List<AppointmentPatientViewDTO>> GetPastAppointmentByPatient(string id);
         Task<List<AppointmentPatientViewDTO>> GetUpcomingAppointmentByPatient(string id);
         Task<AddAppointment> AddAppointment(AddAppointment appointment );
+        Task<List<TimeOnly>> GetTimeByDateAndDoctorId(string doctorId,DateOnly date);
 
     }
 }
