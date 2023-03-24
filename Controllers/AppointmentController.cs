@@ -229,11 +229,11 @@ namespace HMS_API.Controllers
             try
             {
                 string[] dataValue = data.Split('/');
-                Guid doctorId = Guid.Parse(dataValue[0]);
+                
                 DateTime datetime = DateTime.Parse(dataValue[1]);
                 DateOnly date = DateOnly.FromDateTime(datetime);
                 //var userId = User.FindFirstValue("id");
-                var result = await _Appointmentrepository.GetTimeByDateAndDoctorId(doctorId,date);
+                var result = await _Appointmentrepository.GetTimeByDateAndDoctorId(dataValue[0] ,date);
                 _response.Result = Ok(result);
 
             }
