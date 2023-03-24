@@ -57,7 +57,7 @@ namespace HMS_API.Repository
                 {
                     continue;
                 }
-                var doc = await _db.Doctors.Where(doc => doc.DoctorId.Equals(doctorId.DoctorId)).FirstOrDefaultAsync();
+                var doc = await _db.Doctors.Where(doc => doc.DoctorId.Equals(doctorId.DoctorId)).Include(d => d.Departments).FirstOrDefaultAsync();
                 var depts = doc.Departments;
 
 
@@ -83,7 +83,7 @@ namespace HMS_API.Repository
             {
                 return null;
             }
-            var doc = await _db.Doctors.Where(doc => doc.DoctorId.Equals(id)).FirstOrDefaultAsync();
+            var doc = await _db.Doctors.Where(doc => doc.DoctorId.Equals(id)).Include(d => d.Departments).FirstOrDefaultAsync();
             var depts = doc.Departments;
             var doctor = new DoctorViewDto()
             {

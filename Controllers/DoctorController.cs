@@ -165,17 +165,24 @@ namespace HMS_API.Controllers
                     else
                     {
                         var result = await _userManager.CreateAsync(user, model.Password);
-                        var dept = await _db.Departments.FindAsync(model.DepartmentID);
+                        
 
                         if (result.Succeeded)
                         {
-                            
                                 var doctor = new Doctor
                                 {
                                     DoctorId = user.Id
                                 };
-                                doctor.Departments.Add(dept);
-                                await _db.Doctors.AddAsync(doctor);
+                            foreach (var dep in model.Departments)
+                            {
+                                var d = await _db.Departments.FindAsync(dep.DepartmentId);
+                                if (d != null)
+                                {
+                                    doctor.Departments.Add(d);
+                                }
+                            }
+                            
+                            await _db.Doctors.AddAsync(doctor);
                             await _userManager.AddToRoleAsync(user,Helper.Helper.Doctor);
                             await _db.SaveChangesAsync();
                             _response.Result = Ok();
