@@ -23,10 +23,26 @@ namespace HMS_API.Repository
                 Remarks = model.Remarks,
                 AppointmentId = model.AppointmentId,
             };
+           
+            if(model.RecommendedTests != null)
+            {
+                foreach(var tst in model.RecommendedTests)
+                {
+                    var test = await _db.Tests.FindAsync(tst.TestId);
+                    if(test != null)
+                    {
+                        
+                        mdReport.RecommendedTest.Tests.Add(test);
+                    }
+                   
+                }
+               
+            }
             await _db.Medical_Reports.AddAsync(mdReport);
             await _db.SaveChangesAsync();
             return mdReport;
         }
+
 
         public async Task<ViewMedicalReport> GetReportByAppointmentId(Guid id)
         {
