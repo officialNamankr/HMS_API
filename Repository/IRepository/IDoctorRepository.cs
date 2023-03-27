@@ -12,5 +12,6 @@ namespace HMS_API.Repository.IRepository
         Task<DoctorViewDto> EditDoctor(string id, EditDoctorDto doc);
         Task<DoctorViewDto> GetDoctorById(string id);
         Task<DoctorViewDto> AddDepartmentToDoctor(AddDepartmentToDoctorDto departments);
+        Task<bool> DeleteDoctor(string id);
     }
 }

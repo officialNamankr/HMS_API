@@ -235,7 +235,24 @@ namespace HMS_API.Controllers
 
             return _response;
         }
-
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<ResponseDto> DeleteAppointment(string doctorId)
+        {
+            try
+            {
+                var result = await _doctorrepository.DeleteDoctor(doctorId);
+                _response.Result = NoContent();
+                _response.DisplayMessage = "Doctor deleted Successfully";
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
 
 
 

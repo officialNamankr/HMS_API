@@ -53,7 +53,7 @@ namespace HMS_API.Repository
         }
         public async Task<List<DepartmentViewDto>> GetAllDepartments()
         {
-            var depts = await _db.Departments.ToListAsync();
+            var depts = await _db.Departments.Where(u => u.IsDeleted.Equals(false)).ToListAsync();
 
             List<DepartmentViewDto> departments = new List<DepartmentViewDto>();
             foreach (var dept in depts)
@@ -87,6 +87,17 @@ namespace HMS_API.Repository
                 departments.Add(dep);
             }
             return departments;
+        }
+        public async Task<bool> DeleteDepartment(Guid id)
+        {
+            var dept = await _db.Departments.FindAsync(id);
+            if (dept == null)
+            {
+                return true;
+            }
+            dept.IsDeleted = true;
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }

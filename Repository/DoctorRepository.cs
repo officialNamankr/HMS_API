@@ -78,7 +78,7 @@ namespace HMS_API.Repository
 
         public async Task<List<DoctorViewDto>> GetAllDoctor()
         {
-            var doctorIds = await _db.Doctors.ToListAsync();
+            var doctorIds = await _db.Doctors.Where(u => u.IsDeleted.Equals(false)).ToListAsync();
             List<DoctorViewDto> doctors = new List<DoctorViewDto>();
             foreach(var doctorId in doctorIds)
             {
@@ -124,6 +124,17 @@ namespace HMS_API.Repository
                 PhoneNumber = doctorDetails.PhoneNumber,
             };
             return doctor;
+        }
+        public async Task<bool> DeleteDoctor(string id)
+        {
+            var doctor = await _db.Doctors.FindAsync(id);
+            if (doctor == null)
+            {
+                return true;
+            }
+            doctor.IsDeleted = true;
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }
