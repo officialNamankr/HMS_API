@@ -11,6 +11,8 @@ using HMS_API.Models.Dto.GetDtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using HMS_API.Models.Dto.PutDtos;
+using HMS_API.Repository;
 
 namespace HMS_API.Controllers
 {
@@ -97,6 +99,35 @@ namespace HMS_API.Controllers
 
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+
+        [HttpPut]
+        [Route("EditDoctor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<ResponseDto> EditTest(string id, [FromBody] EditDoctorDto doctor)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _response.IsSuccess = false;
+                    _response.Result = BadRequest();
+                    _response.DisplayMessage = "Bad Model State";
+                    return _response;
+                }
+                var result = await _doctorrepository.EditDoctor(id, doctor);
+                _response.Result = Ok(result);
+                _response.DisplayMessage = "Doctor Updated Successfully";
+                return _response;
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
             }
             return _response;
         }

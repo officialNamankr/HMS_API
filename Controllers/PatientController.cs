@@ -1,6 +1,7 @@
 ﻿using HMS_API.DbContexts;
 using HMS_API.Models.Dto;
 using HMS_API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,7 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetAllPatients")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Doctor")]
         public async Task<ResponseDto> GetPatient()
         {
             try
@@ -44,6 +46,7 @@ namespace HMS_API.Controllers
 
         [HttpGet]
         [Route("/GetPatientById")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,Doctor,Patient")]
         public async Task<ResponseDto> GetPatientById(string id)
         {
             try

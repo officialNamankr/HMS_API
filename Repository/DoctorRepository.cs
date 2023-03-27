@@ -2,6 +2,7 @@
 using HMS_API.Models;
 using HMS_API.Models.Dto.GetDtos;
 using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,35 @@ namespace HMS_API.Repository
                 Email = docGenDetails.Email,
                 PhoneNumber = docGenDetails.PhoneNumber,
                 Departments = doctor.Departments
+            };
+            return doctorDto;
+
+        }
+
+        public async Task<DoctorViewDto> EditDoctor(string id, EditDoctorDto doc)
+        {
+            var doctor =await _db.Users.FindAsync(id);
+            doctor.Name = doc.Name;
+            doc.Email = doc.Email;
+            var docDept = await _db.Doctors.Where(dr => dr.DoctorId.Equals(id)).Include(d => d.Departments).FirstOrDefaultAsync();
+
+            if (doc.Departments != null)
+            {
+               
+                foreach (var dept in doc.Departments)
+                {
+                    var dpt = await _db.Departments.FirstOrDefaultAsync(d => d.Id.Equals(dept.DepartmentId));
+                  docDept.Departments.Add(dpt);
+                }
+            }
+            await _db.SaveChangesAsync();
+            var doctorDto = new DoctorViewDto()
+            {
+                DoctorId = id,
+                DoctorName = doctor.Name,
+                Email = doctor.Email,
+                PhoneNumber = doctor.PhoneNumber,
+                Departments = docDept.Departments
             };
             return doctorDto;
 
