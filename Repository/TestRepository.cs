@@ -55,7 +55,7 @@ namespace HMS_API.Repository
 
         public async Task<object> GetAllTest()
         {
-            var tests = await _db.Tests.OrderBy(t => t.Name).ToListAsync();
+            var tests = await _db.Tests.Where(tst => tst.IsDeleted.Equals(false)).OrderBy(t => t.Name).ToListAsync();
             return tests;
         }
 

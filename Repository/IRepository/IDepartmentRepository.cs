@@ -11,5 +11,6 @@ namespace HMS_API.Repository.IRepository
         Task<List<DoctorByDepartmentViewDTO>> GetAllDoctorsByDeptId(Guid id);
         Task<object> EditDepartment(Guid id, EditDepartmentDto model);
         Task<object> GetDepartmentById(Guid id);
+        Task<bool> DeleteDepartment(Guid id);
     }
 }

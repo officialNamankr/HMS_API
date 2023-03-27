@@ -15,5 +15,6 @@ namespace HMS_API.Models
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Department> Departments { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
