@@ -157,6 +157,32 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+        //[HttpPut]
+        //[Route("EditDoctor")]
+        //public async Task<ResponseDto> EditDoctor(Guid id, [FromBody] EditDoctorDto doctor)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            _response.IsSuccess = false;
+        //            _response.Result = BadRequest();
+        //            _response.DisplayMessage = "Bad Model State";
+        //            return _response;
+        //        }
+        //        var result = await _doctorrepository.EditDoctor(id, doctor);
+        //        _response.Result = Ok(result);
+        //        _response.DisplayMessage = "Doctor edited Successfully";
+        //        return _response;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _response.IsSuccess = false;
+        //        _response.ErrorMessages = new List<string> { ex.Message };
+        //    }
+        //    return _response;
+        //}
 
 
 
