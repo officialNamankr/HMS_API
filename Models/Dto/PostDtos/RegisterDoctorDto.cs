@@ -14,7 +14,7 @@ namespace HMS_API.Models.Dto.PostDtos
         [EmailAddress]
         public string Email { get; set; }
 
-        public Guid DepartmentID { get; set; }
+        public ICollection<DepartmentIdDto> Departments { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
