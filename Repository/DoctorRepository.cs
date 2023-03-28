@@ -105,6 +105,22 @@ namespace HMS_API.Repository
             return doctors;
 
         }
+        //public async Task<object> EditDoctor(Guid id, EditDoctorDto model)
+        //{
+        //    var Doctor = await _db.Doctors.FindAsync(id);
+        //    if (Doctor == null)
+        //    {
+        //        return null;
+        //    }
+        //    Doctor.Name = model.Name;
+        //    Doctor.UserName = model.UserName;
+        //    Doctor.Email = model.Email;
+        //    Doctor.Password = model.Password;
+        //    Doctor.ConfirmPassword= model.ConfirmPassword;
+
+        //    _db.SaveChanges();
+        //    return Doctor;
+        //}
 
         public async Task<DoctorViewDto> GetDoctorById(string id)
         {

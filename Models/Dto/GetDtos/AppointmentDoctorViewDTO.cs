@@ -13,5 +13,6 @@
 
         public string Doctorid { get; set; }
         public string DoctorName { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace HMS_API.Models.Dto.PutDtos
 {
     public class EditDoctorDto
     {
-      
+
         public string Name { get; set; }
         public string UserName { get; set; }
         [EmailAddress]

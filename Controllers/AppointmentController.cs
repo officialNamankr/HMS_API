@@ -245,5 +245,70 @@ namespace HMS_API.Controllers
             }
             return _response;
         }
+
+
+
+        [HttpGet]
+        [Route("/GetCancelledAppointmentByDoctor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Doctor")]
+        public async Task<ResponseDto> GetCancelledAppointmentByDoctor()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetCancelledAppointmentByDoctor(userId);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+        [HttpGet]
+        [Route("/GetPastAppointmentByDoctor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Doctor")]
+        public async Task<ResponseDto> GetPastAppointmentByDoctor()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetPastAppointmentByDoctor(userId);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpGet]
+        [Route("/GetUpcomingAppointmentByDoctor")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Doctor")]
+        public async Task<ResponseDto> GetUpcomingAppointmentByDoctor()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("id");
+                var result = await _Appointmentrepository.GetUpcomingAppointmentByDoctor(userId);
+                _response.Result = Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+       
     }
 }
