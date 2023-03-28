@@ -224,6 +224,91 @@ namespace HMS_API.Repository
             }
             return appointments;
         }
+
+
+        public async Task<List<AppointmentDoctorViewDTO>> GetCancelledAppointmentByDoctor(string id)
+        {
+            var appointmentDetails = await _db.Appointments.Where(u => u.DoctorId.Equals(id)).Where(a => a.IsDeleted).ToListAsync();
+            if (appointmentDetails == null)
+            {
+                return null;
+            }
+            List<AppointmentDoctorViewDTO> appointments = new List<AppointmentDoctorViewDTO>();
+            foreach (var appointment in appointmentDetails)
+            {
+                var user = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
+                AppointmentDoctorViewDTO app = new AppointmentDoctorViewDTO
+                {
+                    AppointmentId = appointment.AppointmentId,
+                    Date_Of_Appointment = appointment.Date_Of_Appointment,
+                    Time_Of_Appointment = appointment.Time_Of_Appointment,
+                    PatientId = appointment.PatientId,
+                    PatientName =user.Name,
+                    IsDeleted = appointment.IsDeleted
+                };
+                appointments.Add(app);
+            }
+            return appointments;
+        }
+
+
+        public async Task<List<AppointmentDoctorViewDTO>> GetPastAppointmentByDoctor(string id)
+        {
+            var dateOnly = DateOnly.FromDateTime(DateTime.Now);
+            var timeOnly = TimeOnly.FromDateTime(DateTime.Now);
+
+            var appointmentDetails = await _db.Appointments.Where(u => u.DoctorId.Equals(id) && !u.IsDeleted && (u.Date_Of_Appointment < dateOnly) || (u.Date_Of_Appointment == dateOnly && u.Time_Of_Appointment < timeOnly && !u.IsDeleted)).ToListAsync();
+            if (appointmentDetails == null)
+            {
+                return null;
+            }
+            List<AppointmentDoctorViewDTO> appointments = new List<AppointmentDoctorViewDTO>();
+            foreach (var appointment in appointmentDetails)
+            {
+                var user = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
+                AppointmentDoctorViewDTO app = new AppointmentDoctorViewDTO
+                {
+                    AppointmentId = appointment.AppointmentId,
+                    Date_Of_Appointment = appointment.Date_Of_Appointment,
+                    Time_Of_Appointment = appointment.Time_Of_Appointment,
+                    PatientId = appointment.PatientId,
+                    PatientName = user.Name,
+                    IsDeleted = appointment.IsDeleted
+                };
+                appointments.Add(app);
+            }
+            return appointments;
+        }
+
+
+
+        public async Task<List<AppointmentDoctorViewDTO>> GetUpcomingAppointmentByDoctor(string id)
+        {
+            var dateOnly = DateOnly.FromDateTime(DateTime.Now);
+            var timeOnly = TimeOnly.FromDateTime(DateTime.Now);
+
+            var appointmentDetails = await _db.Appointments.Where(u => u.DoctorId.Equals(id) && !u.IsDeleted && (u.Date_Of_Appointment > dateOnly) || (u.Date_Of_Appointment == dateOnly && u.Time_Of_Appointment > timeOnly && !u.IsDeleted)).ToListAsync();
+            if (appointmentDetails == null)
+            {
+                return null;
+            }
+            List<AppointmentDoctorViewDTO> appointments = new List<AppointmentDoctorViewDTO>();
+            foreach (var appointment in appointmentDetails)
+            {
+                var user = await _db.Users.Where(u => u.Id.Equals(appointment.PatientId)).FirstOrDefaultAsync();
+                AppointmentDoctorViewDTO app = new AppointmentDoctorViewDTO
+                {
+                    AppointmentId = appointment.AppointmentId,
+                    Date_Of_Appointment = appointment.Date_Of_Appointment,
+                    Time_Of_Appointment = appointment.Time_Of_Appointment,
+                    PatientId = appointment.PatientId,
+                    PatientName = user.Name,
+                    IsDeleted = appointment.IsDeleted
+                };
+                appointments.Add(app);
+            }
+            return appointments;
+        }
         public async Task<List<TimeOnly>> GetTimeByDateAndDoctorId(string doctorId,DateOnly date)
         {
             var appointmentDetails = await _db.Appointments.Where(u => u.DoctorId.Equals(doctorId) && u.Date_Of_Appointment.Equals(date)).ToListAsync();
