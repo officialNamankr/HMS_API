@@ -66,27 +66,21 @@ namespace HMS_API.Repository
         public async Task<List<DoctorByDepartmentViewDTO>> GetAllDoctorsByDeptId(Guid id)
         {
             //var depts = await _db.Departments.Where(u => u.Id.Equals(id)).Include(Doctor => Doctor.Id).Include(Doctor => Doctor.Name).ToListAsync();
-            var depts = await _db.Departments.Where(u => u.Id.Equals(id)).Include(Department => Department.Doctors).FirstOrDefaultAsync();
+            var dept = await _db.Departments.Where(d => d.Id.Equals(id)).Include(Department => Department.Doctors).FirstOrDefaultAsync();
             
 
             List<DoctorByDepartmentViewDTO> departments = new List<DoctorByDepartmentViewDTO>();
-            
-            
-                //var doctorId = "";
-                foreach (var doctor in depts.Doctors)
+          
+                foreach (var doctor in dept.Doctors)
                 {
-                   var doctorUser = await _db.Doctors.Where(u => u.DoctorId.Equals(doctor.DoctorId)).FirstOrDefaultAsync();
-                   
-                   var doc = await _db.Doctors.Where(u => u.DoctorId.Equals(doctorUser.DoctorId)).Include(Doctor => Doctor.User).FirstOrDefaultAsync();
-                    var dep = new DoctorByDepartmentViewDTO { DoctorId = doc.DoctorId, DoctorName = doc.User.Name };
-                    departments.Add(dep);
+                    var doctorUser = await _db.Doctors.Where(u => u.DoctorId.Equals(doctor.DoctorId)).Include(Doctor => Doctor.User).FirstOrDefaultAsync();
+                    var docs = new DoctorByDepartmentViewDTO { DoctorId = doctorUser.DoctorId, DoctorName = doctorUser.User.Name };
+                    departments.Add(docs);
+
                 }
                 //var doc = await _db.Doctors.Where(u => u.DoctorId.Equals(doctorId)).Include(Doctor => Doctor.User).FirstOrDefaultAsync();
-                //if (doc == null)
-                    //return departments;
-                //var dep = new DoctorByDepartmentViewDTO { DoctorId = doc.DoctorId, DoctorName = doc.User.Name };
-                //departments.Add(dep);
-            
+               
+          
             return departments;
         }
         public async Task<bool> DeleteDepartment(Guid id)
