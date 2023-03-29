@@ -252,7 +252,7 @@ namespace HMS_API.Controllers
                 });
 
                 _response.DisplayMessage = "Logged In successfully";
-                return (accessToken.Result);
+                return (_response);
 
             }
 
