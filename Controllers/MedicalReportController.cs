@@ -2,6 +2,7 @@
 using HMS_API.Models;
 using HMS_API.Models.Dto;
 using HMS_API.Models.Dto.PostDtos;
+using HMS_API.Models.Dto.PutDtos;
 using HMS_API.Repository;
 using HMS_API.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
@@ -58,6 +59,32 @@ namespace HMS_API.Controllers
             return _response;
         }
 
+        [HttpPut]
+        [Route("EditReport")]
+        public async Task<ResponseDto> EditReport(Guid id, [FromBody] EditReportDTO report)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _response.IsSuccess = false;
+                    _response.Result = BadRequest();
+                    _response.DisplayMessage = "Bad Model State";
+                    return _response;
+                }
+                var result = await _medicalReportRepository.EditReport(id, report);
+                _response.Result = Ok(result);
+                _response.DisplayMessage = "Report Added Successfully";
+                return _response;
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
 
 
 
