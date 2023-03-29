@@ -43,23 +43,23 @@ namespace HMS_API.Repository
             await _db.SaveChangesAsync();
             return mdReport;
         }
-        public async Task<object> EditReport(Guid id, EditReportDTO model)
-        {
-            var Report = await _db.Medical_Reports.FindAsync(id);
-            if (Report == null)
-            {
-                return null;
-            }
-            Report.Remarks = model.Remarks;
-            foreach (var ids in model.RecommendedTest.TestIds)
-            {
-                var test= await _db.Tests.FindAsync(ids);
-                Report.RecommendedTest.Tests.Add(test);
-            }
-         
-            await _db.SaveChangesAsync();
-            return Report;
-        }
+        //public async Task<object> EditReport(Guid id, EditReportDTO model)
+        //{
+        //    var Report = await _db.Medical_Reports.FindAsync(id);
+        //    if (Report == null)
+        //    {
+        //        return null;
+        //    }
+        //    Report.Remarks = model.Remarks;
+        //    foreach (var ids in model.RecommendedTest.TestIds)
+        //    {
+        //        var test= await _db.Tests.FindAsync(ids);
+        //        Report.RecommendedTest.Tests.Add(test);
+        //    }
+            
+        //    await _db.SaveChangesAsync();
+        //    return Report;
+        //}
 
         public async Task<ViewMedicalReport> GetReportByAppointmentId(Guid id)
         {
